@@ -1,0 +1,18 @@
+# Use a imagem base do Alpine Linux
+FROM alpine:latest
+
+# Instalar netcat
+RUN apk add --no-cache netcat-openbsd busybox-extras
+
+
+# Script de inicialização para configurar o roteamento
+COPY entrypoint-externo.sh /entrypoint.sh
+COPY servico.sh /usr/local/bin/servico.sh
+COPY cliente.sh /usr/local/bin/cliente.sh
+
+RUN chmod +x /entrypoint.sh
+RUN chmod +x /usr/local/bin/servico.sh
+RUN chmod +x /usr/local/bin/cliente.sh
+
+# Executar o script na inicialização do contêiner
+ENTRYPOINT ["/entrypoint.sh"]
